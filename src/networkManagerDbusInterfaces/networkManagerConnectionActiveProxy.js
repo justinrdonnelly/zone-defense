@@ -38,5 +38,6 @@ const networkManagerConnectionActiveInterfaceXml = '\
         </interface>\
     </node>\
 ';
-export const NetworkManagerConnectionActiveProxy = Gio.DBusProxy.makeProxyWrapper(networkManagerConnectionActiveInterfaceXml);
-
+export const NetworkManagerConnectionActiveProxy = Gio.DBusProxy.makeProxyWrapper(
+    networkManagerConnectionActiveInterfaceXml
+);

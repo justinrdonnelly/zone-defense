@@ -140,4 +140,3 @@ const networkManagerInterfaceXml = '\
     </node>\
 ';
 export const NetworkManagerProxy = Gio.DBusProxy.makeProxyWrapper(networkManagerInterfaceXml);
-

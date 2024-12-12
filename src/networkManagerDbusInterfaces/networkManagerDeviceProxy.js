@@ -68,4 +68,3 @@ const networkManagerDeviceInterfaceXml = '\
     </node>\
 ';
 export const NetworkManagerDeviceProxy = Gio.DBusProxy.makeProxyWrapper(networkManagerDeviceInterfaceXml);
-
