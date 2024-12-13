@@ -128,7 +128,8 @@ export const ZoneDefenseApplication = GObject.registerClass(
                         // hope for better luck next time (unlikely).
                         console.error('Unable to get zone information.');
                         console.error(e.message);
-                        // TODO: Is it worth checking to see if firewalld is running? It can help give a more useful error message.
+                        // TODO: Is it worth checking to see if firewalld is running? It can help give a more useful
+                        // error message.
                         // TODO: handle error (maybe show a modal or notification?)
                     }
                 });
@@ -170,10 +171,11 @@ export const ZoneDefenseApplication = GObject.registerClass(
         }
 
         async chooseClicked(connectionId, activeConnectionSettings, zone) {
+            // eslint-disable-next-line @stylistic/max-len
             console.log(`For connection ID ${connectionId}, setting zone to ${zone ?? ZoneDefenseWindow.defaultZoneLabel}`);
-            // Even though these are both async, do NOT execute them concurrently. Update seen connections before updating
-            // the zone. If the connection ID hasn't been added to the list of seen connections when the zone is changed,
-            // the window will open again!
+            // Even though these are both async, do NOT execute them concurrently. Update seen connections before
+            // updating the zone. If the connection ID hasn't been added to the list of seen connections when the zone
+            // is changed, the window will open again!
             // Don't try/catch here. We'll let the exception propagate.
             this.#connectionIdsSeen.addConnectionIdToSeen(connectionId);
             await ZoneForConnection.setZone(activeConnectionSettings, zone);

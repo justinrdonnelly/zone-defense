@@ -28,13 +28,15 @@ export class ZoneForConnection {
                 'GetSettings', // method
                 parameters,
                 null, // reply type
-                Gio.DBusCallFlags.NONE, // might want ALLOW_INTERACTIVE_AUTHORIZATION - https://gjs-docs.gnome.org/gio20/gio.dbuscallflags
+                // might want ALLOW_INTERACTIVE_AUTHORIZATION - https://gjs-docs.gnome.org/gio20/gio.dbuscallflags
+                Gio.DBusCallFlags.NONE,
                 -1, // timeout
                 null, // cancellable
                 (connection, res) => {
                     try {
                         // throw new Error('hi'); // for testing error handling
                         const reply = connection.call_finish(res);
+                        // eslint-disable-next-line @stylistic/max-len
                         console.debug(`Retrieved connection settings: ${JSON.stringify(reply.get_child_value(0).recursiveUnpack())}`);
                         resolve(reply);
                     } catch (e) {
@@ -71,7 +73,8 @@ export class ZoneForConnection {
                 'Update', // method
                 parameters,
                 null, // reply type
-                Gio.DBusCallFlags.NONE, // might want ALLOW_INTERACTIVE_AUTHORIZATION - https://gjs-docs.gnome.org/gio20/gio.dbuscallflags
+                // might want ALLOW_INTERACTIVE_AUTHORIZATION - https://gjs-docs.gnome.org/gio20/gio.dbuscallflags
+                Gio.DBusCallFlags.NONE,
                 -1, // timeout
                 null, // cancellable
                 (connection, res) => {
