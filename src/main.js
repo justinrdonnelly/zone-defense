@@ -42,17 +42,17 @@ export const ZoneDefenseApplication = GObject.registerClass(
             this.#connectionIdsSeen = new ConnectionIdsSeen();
 
             // quit action
-            const quit_action = new Gio.SimpleAction({ name: 'quit' });
+            this._quitAction = new Gio.SimpleAction({ name: 'quit' });
             // eslint-disable-next-line no-unused-vars
-            quit_action.connect('activate', (action) => {
-                this.quit();
+            this._quitActionHandlerId = this._quitAction.connect('activate', (action) => {
+                this.quit(null);
             });
-            this.add_action(quit_action);
+            this.add_action(this._quitAction);
 
             // about action
-            const show_about_action = new Gio.SimpleAction({ name: 'about' });
+            this._showAboutAction = new Gio.SimpleAction({ name: 'about' });
             // eslint-disable-next-line no-unused-vars
-            show_about_action.connect('activate', (action) => {
+            this._showAboutActionHandlerId = this._showAboutAction.connect('activate', (action) => {
                 let aboutParams = {
                     transient_for: this.active_window,
                     application_name: 'zone-defense',
@@ -65,7 +65,7 @@ export const ZoneDefenseApplication = GObject.registerClass(
                 const aboutWindow = new Adw.AboutWindow(aboutParams);
                 aboutWindow.present();
             });
-            this.add_action(show_about_action);
+            this.add_action(this._showAboutAction);
 
             // handle signals
             const signals = [2, 15];
@@ -187,6 +187,8 @@ export const ZoneDefenseApplication = GObject.registerClass(
             this.#sourceIds.forEach((id) => GLib.Source.remove(id));
             this.networkState?.destroy();
             this.networkState = null;
+            this._quitAction.disconnect(this._quitActionHandlerId);
+            this._showAboutAction.disconnect(this._showAboutActionHandlerId);
             super.quit(); // this ends up calling vfunc_shutdown()
         }
     }
