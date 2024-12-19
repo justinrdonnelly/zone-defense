@@ -111,7 +111,7 @@ class NetworkManagerConnectionActive extends NetworkManagerStateItem {
                 console.debug(`Settings object path: ${this._proxyObj.Connection}`);
 
                 // monitor for changes
-                this._proxyObjHandlerId = networkManagerConnectionActiveProxy.connect(
+                this._proxyObjHandlerId = this._proxyObj.connect(
                     NetworkManagerStateItem._propertiesChanged,
                     this.#proxyUpdated.bind(this)
                 );
@@ -207,7 +207,7 @@ class NetworkManagerDevice extends NetworkManagerStateItem {
                     this._proxyObj = proxy;
                     this.#addConnectionInfo();
                     // monitor for property changes
-                    this._proxyObjHandlerId = networkManagerDeviceProxy.connect(
+                    this._proxyObjHandlerId = this._proxyObj.connect(
                         NetworkManagerStateItem._propertiesChanged,
                         this.#proxyUpdated.bind(this)
                     );
@@ -369,7 +369,7 @@ class NetworkManager extends NetworkManagerStateItem {
                 this._proxyObj = proxy;
                 this.#addDevices();
                 // monitor for property changes
-                this._proxyObjHandlerId = networkManagerProxy.connect(
+                this._proxyObjHandlerId = this._proxyObj.connect(
                     NetworkManagerStateItem._propertiesChanged,
                     this.#proxyUpdated.bind(this)
                 );
