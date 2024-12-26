@@ -14,8 +14,10 @@ import Gio from 'gi://Gio'; // Required by GJS, version not necessary.
 import GLib from 'gi://GLib'; // Required by GJS, version not necessary.
 import GLibUnix from 'gi://GLibUnix?version=2.0';
 import GObject from 'gi://GObject'; // Required by GJS, version not necessary.
+import Xdp from "gi://Xdp";
 
 import { ConnectionIdsSeen } from './connectionIdsSeen.js';
+import { DependencyCheck } from './dependencyCheck.js';
 import { NetworkState } from './networkState.js';
 import { ChooseZoneWindow } from './chooseZoneWindow.js';
 import { ZoneForConnection } from './zoneForConnection.js';
@@ -88,6 +90,15 @@ export const ZoneDefenseApplication = GObject.registerClass(
         // The init method will instantiate NetworkState and listen for its signals. We do this outside the constructor
         // so we can be async.
         async init() {
+            try {
+                await DependencyCheck.runChecks();
+            } catch (e) {
+                // Bail out here... There's nothing we can reasonably do without the correct dependencies.
+                console.error('Error in dependency check.');
+                console.error(e.message);
+                // TODO: It'd be nice to generate a notification in this case.
+                this.quit(null);
+            }
             try {
                 await this.#connectionIdsSeen.init();
             } catch (e) {
@@ -223,6 +234,9 @@ export const ZoneDefenseApplication = GObject.registerClass(
 
             /* Gio.OutputStream */
             // Gio._promisify(Gio.OutputStream.prototype, 'write_bytes_async');
+
+            // others
+            Gio._promisify(Xdp.Portal.prototype, "request_background", "request_background_finish");
         }
     }
 );
