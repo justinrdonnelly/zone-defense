@@ -44,14 +44,6 @@ export const ZoneDefenseApplication = GObject.registerClass(
             this.#promisify();
             this.#connectionIdsSeen = new ConnectionIdsSeen();
 
-            // quit action
-            this._quitAction = new Gio.SimpleAction({ name: 'quit' });
-            // eslint-disable-next-line no-unused-vars
-            this._quitActionHandlerId = this._quitAction.connect('activate', (action) => {
-                this.quit(null);
-            });
-            this.add_action(this._quitAction);
-
             // about action
             this._showAboutAction = new Gio.SimpleAction({ name: 'about' });
             // eslint-disable-next-line no-unused-vars
@@ -203,7 +195,6 @@ export const ZoneDefenseApplication = GObject.registerClass(
             this.#sourceIds.forEach((id) => GLib.Source.remove(id));
             this.networkState?.destroy();
             this.networkState = null;
-            this._quitAction.disconnect(this._quitActionHandlerId);
             this._showAboutAction.disconnect(this._showAboutActionHandlerId);
             this._connectionChangedAction.disconnect(this._connectionChangedActionHandlerId);
             super.quit(); // this ends up calling vfunc_shutdown()
